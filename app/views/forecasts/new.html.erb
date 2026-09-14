@@ -1,0 +1,48 @@
+<div data-controller="autocomplete" class="w-full max-w-xl mx-auto">
+  <div class="text-center mb-8">
+    <h1 class="text-4xl font-semibold tracking-tight text-slate-900">Forecastly</h1>
+    <p class="mt-2 text-slate-500">Enter a ZIP code or address to see the weather forecast.</p>
+  </div>
+
+  <div class="rounded-2xl bg-white p-6 shadow-xl shadow-slate-200/60 ring-1 ring-slate-200">
+    <%= form_with url: forecasts_path, method: :post, class: "space-y-4", data: { turbo_frame: "forecast_result" } do |f| %>
+      <div class="relative">
+        <span class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+          <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z" />
+          </svg>
+        </span>
+
+        <%= f.text_field :address, value: params[:address], placeholder: "Enter a ZIP code or address",
+              autocomplete: "off",
+              data: { autocomplete_target: "input", action: "input->autocomplete#search" },
+              class: "w-full rounded-xl border border-slate-300 bg-slate-50 py-3 pl-10 pr-3 text-slate-900 placeholder:text-slate-400 transition focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/30" %>
+
+        <%= f.hidden_field :zip_code, value: params[:zip_code], data: { autocomplete_target: "zip" } %>
+        <%= f.hidden_field :latitude, value: params[:latitude], data: { autocomplete_target: "latitude" } %>
+        <%= f.hidden_field :longitude, value: params[:longitude], data: { autocomplete_target: "longitude" } %>
+        <%= f.hidden_field :place_id, value: params[:place_id], data: { autocomplete_target: "placeId" } %>
+        <%= f.hidden_field :label, value: params[:label], data: { autocomplete_target: "label" } %>
+
+        <div data-autocomplete-target="dropdown" class="absolute left-0 right-0 top-full z-10 mt-2"></div>
+      </div>
+
+      <%= f.submit "Search",
+            class: "w-full cursor-pointer rounded-xl bg-blue-600 px-4 py-3 font-medium text-white transition hover:bg-blue-700 active:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500/40" %>
+    <% end %>
+  </div>
+
+  <%= turbo_frame_tag "forecast_result", class: "block" do %>
+    <% if @result.nil? %>
+    <% elsif @result.success? %>
+      <%= render "forecasts/forecast", result: @result %>
+    <% else %>
+      <div class="mt-6 flex items-start gap-3 rounded-2xl bg-white px-5 py-4 shadow-lg shadow-slate-200/60 ring-1 ring-red-200">
+        <svg class="mt-0.5 h-5 w-5 shrink-0 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
+        </svg>
+        <p class="text-sm text-red-700"><%= @result.error %></p>
+      </div>
+    <% end %>
+  <% end %>
+</div>

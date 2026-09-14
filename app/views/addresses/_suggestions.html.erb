@@ -1,0 +1,15 @@
+<% if suggestions.any? %>
+  <ul class="border rounded shadow bg-white divide-y">
+    <% suggestions.each do |s| %>
+      <li class="p-2 cursor-pointer hover:bg-gray-100"
+          data-action="click->autocomplete#select"
+          data-autocomplete-label-param="<%= s.label %>"
+          data-autocomplete-zip-param="<%= s.zip_code %>"
+          data-autocomplete-placeid-param="<%= s.place_id %>"
+          data-autocomplete-latitude-param="<%= s.latitude %>"
+          data-autocomplete-longitude-param="<%= s.longitude %>">
+        <%= s.label %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>
