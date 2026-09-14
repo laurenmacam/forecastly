@@ -10,8 +10,8 @@ RSpec.describe Geocoding::GoogleClient do
             "placeId" => "ChIJ0",
             "location" => { "latitude" => 34.09, "longitude" => -118.40 },
             "addressComponents" => [
-              { "longText" => "California", "types" => ["administrative_area_level_1"] },
-              { "longText" => "90210", "types" => ["postal_code"] }
+              { "longText" => "California", "types" => [ "administrative_area_level_1" ] },
+              { "longText" => "90210", "types" => [ "postal_code" ] }
             ]
           }
         ]

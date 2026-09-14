@@ -1,7 +1,7 @@
 module Geocoding
   class NominatimClient
     BASE_URL = "https://nominatim.openstreetmap.org"
-    
+
     def self.search(query, limit: 5)
       response = connection.get("/search", {
         q: query,

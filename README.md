@@ -9,7 +9,7 @@ for the selected place, cached for 30 minutes.
 - Redis as the cache store
 - Hotwire (Turbo Frames + Stimulus)
 - Tailwind CSS
-- RSpec + WebMock
+- RSpec + WebMock, RuboCop
 
 ## Running
 
@@ -24,10 +24,11 @@ That starts Redis, the Rails web server and Tailwind watcher.
 - App: <http://localhost:3000>
 - Redis is exposed on host port **6380** (non-standard, so it won't collide)
 
-## Tests
+## Tests and linting
 
 ```sh
 docker compose run --rm web bundle exec rspec
+docker compose run --rm web bundle exec rubocop
 ```
 
 ## Development process
@@ -41,6 +42,10 @@ docker compose run --rm web bundle exec rspec
 - For the weather I also used a Google service. Cache key uses `zip_code` when available, falls back to `place_id` for locations without postal codes (countries for example).
 
 - SQLite is used as the database adapter since nothing is persisted.
+
+- For linting I used `rubocop-rails-omakase`, the configuration the Rails team publishes, instead of RuboCop's defaults.
+
+- For linting I used rubocop-rails-omakase, the configuration the Rails team publishes, instead of RuboCop's defaults.
 
 - I had some trouble bringing the results from the controller into the Stimulus views, since it had been a while since I last worked with this pattern, but it is still simpler in this case than other alternatives.
 

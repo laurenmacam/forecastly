@@ -2,7 +2,6 @@ x-app: &app
   build: .
   volumes:
     - .:/rails
-    - bundle_data:/usr/local/bundle
   environment:
     RAILS_ENV: development
     REDIS_URL: redis://redis:6379/0
@@ -38,4 +37,3 @@ services:
 
 volumes:
   redis_data:
-  bundle_data:

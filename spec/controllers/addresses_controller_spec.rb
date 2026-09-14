@@ -16,7 +16,7 @@ RSpec.describe AddressesController, type: :controller do
 
     before do
       allow(Geocoding::AddressSuggestions).to receive(:call)
-        .and_return(ServiceResult.success([suggestion]))
+        .and_return(ServiceResult.success([ suggestion ]))
     end
 
     it "returns suggestions as JSON" do
